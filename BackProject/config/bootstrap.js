@@ -69,7 +69,7 @@ module.exports.bootstrap = function (cb) {
 
         //console.log(tags.album);
 
-
+        if(mp3File) {
         console.log("2 bis - Extracted " + pathFile);
 
 
@@ -84,9 +84,7 @@ module.exports.bootstrap = function (cb) {
             album = album.replace(/\0/g, '');
         }
 
-        
-        if(mp3File) {
-          Mp3.create({album:album,title:tags.title,artist:tags.artist,year:tags.year,git :pathDatabase}).exec(function createCB(err, created){   console.log('Created mp3 with name ' + created); });
+          Mp3.create({album:album,title:tags.title,artist:tags.artist,year:tags.year,pathDatabase :pathDatabase}).exec(function createCB(err, created){   console.log('Created mp3 with name ' + created); });
           manageFile(album, pathFile, fileName);
         }
 
