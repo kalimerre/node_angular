@@ -9,13 +9,15 @@ angular.module('frontProjectApp')
         },
         getMusicById: function getMusicById(id) {
           return $http.get(url + "/" + id);
-        }
-        ,
+        },
         deleteMusic: function deleteMusic(music) {
           return $http.delete(url + "/" + music.id, music)
         },
         updateMusic:function updateMusic(music){
           return $http.put(url + "/" + music.id, music)
+        },
+        updateMetaData:function updateMetaData(music){
+          return $http.put(url + "/updateMetaData/" + music.id, music)
         }
       };
     }
