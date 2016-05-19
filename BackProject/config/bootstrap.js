@@ -32,11 +32,33 @@ module.exports.bootstrap = function (cb) {
 
   var files = [];
   var extracting = false;
+  var endTimeout = 1000;
 
   function addFileToExtract(path) {
+
+      files.push(path);
+      console.log(files);
+      fs.stat(path, function(err, stat){
+        if(err) throw err;
+        setTimeout(checkEnd, endTimeout, path, stat);
+      });
+
+  }
+
+ /* function addFileToExtract(path) {
     files.push(path);
     console.log(files);
     extract();
+  }*/
+
+  function checkEnd(path, prev){
+    fs.stat(path, function(err, stat){
+      if(stat !== undefined && stat.mtime.getTime() === prev.mtime.getTime()){
+        extract(path);
+      }else{
+        setTimeout(checkEnd, endTimeout, path, prev);
+      }
+    });
   }
 
   function extract() {
@@ -110,21 +132,23 @@ module.exports.bootstrap = function (cb) {
       fs.stat(album, function (error) {
         if (error) {
           console.log(album);
-          fs.mkdir(album, 0777, function (error) {
-            if (error) {
-              moveFile(pathFile, pathIncoming)
-            }else {
-              moveFile(pathFile, newPath)
-            }
-          });
+          createFile(album, pathFile, pathIncoming, newPath);
         }
         else {
-
           moveFile(pathFile, newPath)
         }
-
       });
     }
+  }
+
+  function createFile(album, pathFile, pathIncoming, newPath){
+    fs.mkdir(album, 0777, function (error) {
+      if (error) {
+        moveFile(pathFile, pathIncoming)
+      }else {
+        moveFile(pathFile, newPath)
+      }
+    });
   }
 
   function moveFile(path, newPath) {

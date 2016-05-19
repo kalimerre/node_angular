@@ -6,6 +6,7 @@
  */
 var fs = require('fs');
 var ffmetadata = require("ffmetadata");
+var ffmpeg = require('ffmpeg');
 
 module.exports = {
 
@@ -46,19 +47,46 @@ module.exports = {
       if (err) {
         return res.negotiate("Erreur ouverture fichier",err);
       }
+      var artiste = mp3[0].artist;
+      var album = mp3[0].album;
+      var title = mp3[0].title;
+      var pathDatabase = mp3[0].pathDatabase;
 
-      artistEsc = mp3[0].artist.replace(/\0/g, '');
-      albumEsc = mp3[0].album.replace(/\0/g, '');
-      titleEsc = mp3[0].title.replace(/\0/g, '');
-      pathDatabaseEsc = mp3[0].pathDatabase.replace(/\0/g, '');
-      
+      if(artiste != null){
+        var artistEsc = artiste.replace(/\0/g, '');
+      }
+      else{
+        var artistEsc = "";
+      }
+
+      if(album != null){
+        var albumEsc = album.replace(/\0/g, '');
+      }
+      else{
+        var albumEsc = "";
+      }
+
+      if(title != null){
+        var titleEsc = title.replace(/\0/g, '');
+      }
+      else{
+        var titleEsc = "";
+      }
+
+      if(pathDatabase != null){
+        var pathDatabaseEsc = pathDatabase.replace(/\0/g, '');
+      }
+      else{
+        var pathDatabaseEsc = "";
+      }
+
+
+
       var data = {
-        artist: artistEsc,
-        album: albumEsc,
-        title: titleEsc
+        artist: "Maxime"
       };
 
-      ffmetadata.write(pathDatabaseEsc, data, function(err) {
+      ffmetadata.write('The Weeknd - The Hills.mp3', data, function(err) {
         if (err) console.error("Error writing metadata", err);
         else console.log("Data written");
       });
