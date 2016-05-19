@@ -90,7 +90,7 @@ module.exports.bootstrap = function (cb) {
 
         extracting = false;
 
-        setTimeout(extract, 300);
+        setTimeout(extract, 600);
       });
     }
   }
