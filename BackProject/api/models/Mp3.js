@@ -23,6 +23,10 @@ module.exports = {
     year: {
       type: 'integer',
       defaultsTo: "2016"
+    },
+    pathDatabase:
+    {
+      type:'string'
     }
   }
 

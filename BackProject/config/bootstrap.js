@@ -76,16 +76,17 @@ module.exports.bootstrap = function (cb) {
         var album = tags.album;
 
         if (album == '' || album == null) {
+          var pathDatabase = "./inconnu/" + fileName;
           console.log("Ce MP3 n'a pas d'album !!");
         }
         else{
+            var pathDatabase = "./" + album + "/" + fileName;
             album = album.replace(/\0/g, '');
         }
 
-        console.log("Album : " + album);
-        console.log("Filename : " + fileName);
-
+        
         if(mp3File) {
+          Mp3.create({album:album,title:tags.title,artist:tags.artist,year:tags.year,git :pathDatabase}).exec(function createCB(err, created){   console.log('Created mp3 with name ' + created); });
           manageFile(album, pathFile, fileName);
         }
 

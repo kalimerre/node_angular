@@ -35,6 +35,6 @@ angular
         controllerAs: 'profile'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/music'
       });
   });
