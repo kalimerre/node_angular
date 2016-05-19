@@ -10,7 +10,7 @@ var chokidar = require('chokidar');
 // 1 - charger le fichier data.txt
 // lire le contenu
 
-var watcher = chokidar.watch('datas',{ignored: /[\/\\]\./});
+var watcher = chokidar.watch('datas', {ignored: /[\/\\]\./});
 
 watcher.on('add', function (path) {
   parsefile(path);
@@ -21,13 +21,12 @@ watcher.on('add', function (path) {
 
 var folderCreated = false;
 
-function parsefile(file){
-  fs.readFile(file, 'utf8', function(error, data){
-    
+function parsefile(file) {
+  fs.readFile(file, 'utf8', function (error, data) {
+
 
     fs.unlink(file);
-    if (error)
-    {
+    if (error) {
       console.log(error);
       return;
     }
@@ -36,51 +35,46 @@ function parsefile(file){
 
     var users = content.split("\n");
 
-    for (var i = 0; i < users.length; i++ )
-    {
+    for (var i = 0; i < users.length; i++) {
       var user = users[i];
 
       if (user.charAt(0) == "L")
-        console.log( user );
+        console.log(user);
     }
 
     var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    for (var i = 0; i < letters.length; i++)
-    {
+    for (var i = 0; i < letters.length; i++) {
       var letter = letters[i];
 
 
       var str = "";
 
-      for (var j = 0; j < users.length; j++ )
-      {
+      for (var j = 0; j < users.length; j++) {
         var user = users[j];
 
-        if (user.charAt(0) == letter)
-        {
+        if (user.charAt(0) == letter) {
           str += user + "\n";
         }
       }
 
-      manageFile(letter,str);
+      manageFile(letter, str);
     }
 
-  });}
+  });
+}
 
 
-function manageFile(letter,str)
-{
-  fs.stat("generated",function(error,stats)
-  {
-    if(error) {
-      if(!folderCreated){
+function manageFile(letter, str) {
+  fs.stat("generated", function (error, stats) {
+    if (error) {
+      if (!folderCreated) {
         fs.mkdir("generated");
         console.log("folder created");
       }
       folderCreated = true;
 
       console.log("when creating file " + letter);
-      fs.writeFile("generated/" + letter + ".txt", str, 'utf8', function(error){
+      fs.writeFile("generated/" + letter + ".txt", str, 'utf8', function (error) {
 
       });
     }
@@ -88,8 +82,5 @@ function manageFile(letter,str)
   });
 }
 
-module.exports = {
-
-
-};
+module.exports = {};
 

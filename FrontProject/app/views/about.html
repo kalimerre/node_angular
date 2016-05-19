@@ -1,4 +1,13 @@
-<p>This is the about view.</p>
-<ul>
-  <li ng-repeat="user in users">{{user}}</li>
-</ul>
+<p>Liste des MP3</p>
+
+
+
+<table ng-repeat="user in users" class="table table-striped">
+  <tr>
+  <td>{{user.id}}</td>
+  <td>{{user.username}}</td>
+    <td><input type="button" value="Edit" ng-click="onEdit(user)"></td>
+    <td><input type="button" value="X" ng-click="onRemove(user)"></td>
+  </tr>
+</table>
+
