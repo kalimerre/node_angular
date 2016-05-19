@@ -20,9 +20,7 @@ module.exports = {
       }
       console.log('Wow, there are %d users named mp3.  Check it out:', mp3.length, mp3);
 
-      console.log("Path Data",mp3.pathDatabase);
-      console.log("Path Data",mp3['pathDatabase']);
-      fs.unlink(mp3['pathDatabase'], function(err){
+      fs.unlink(mp3[0].pathDatabase, function(err){
         if (err){ console.log("Erreur delete fichier",err);}
       });
       console.log("Fichier supprime du dossier");
@@ -38,9 +36,6 @@ module.exports = {
     });
 
     //Delete mp3 in database
-
-
-
 
   }
 
