@@ -3,3 +3,5 @@
 /.tmp
 /.sass-cache
 /bower_components
+/FrontProject/bower_components
+/FrontProject/node_modules
