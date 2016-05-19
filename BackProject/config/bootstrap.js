@@ -23,8 +23,10 @@ module.exports.bootstrap = function (cb) {
     persistent: true
   });
 
+
+
   watcher.on('add', function (path) {
-    console.log('File added : ' + path);
+    console.log('1 - File added : ' + path);
     addFileToExtract(path);
   });
 
@@ -50,16 +52,23 @@ module.exports.bootstrap = function (cb) {
       console.log("Extracting : " + pathFile);
       id3({file: pathFile, type: id3.OPEN_LOCAL}, function (err, tags) {
 
+
+        var fileName = pathLib.basename(pathFile);
+        var garbagePath = "./garbage/" + fileName;
+
         if (err) {
-          console.log("Erreur pendant l'extract : " + err);
-          return;
+          console.log("2 - Erreur pendant l'extract : " + err);
+          if(fileName.split('.').pop() != "mp3")
+          {
+            moveFile(pathFile, garbagePath);
+          }
         }
 
 
         //console.log(tags.album);
 
 
-        console.log("Extracted " + pathFile);
+        console.log("2 bis - Extracted " + pathFile);
 
 
         var album = tags.album;
@@ -67,7 +76,7 @@ module.exports.bootstrap = function (cb) {
           console.log("Ce MP3 n'a pas d'album !!");
           return;
         }
-        var fileName = pathLib.basename(pathFile);
+
         console.log("Album : " + album);
         console.log("Filename : " + fileName);
 
@@ -82,18 +91,25 @@ module.exports.bootstrap = function (cb) {
 
 
   function manageFile(album, pathFile, fileName) {
-    var newPath = "albums/" + album + "/" + fileName;
-    var pathIncoming = "albums/inconnu/" + fileName;
-    console.log("Album dans manageFile : " + album);
+    var newPath = "./" + album + "/" + fileName;
+    var pathIncoming = "./inconnu/" + fileName;
+    console.log("3 - Album dans manageFile : " + album);
+
 
     if (album == null) {
+      console.log("3bis - album est nul");
       moveFile(pathFile, pathIncoming)
     }
     else {
       fs.stat(album, function (error) {
         if (error) {
-          fs.mkdir(album, function () {
-            moveFile(pathFile, newPath)
+          console.log(album);
+          fs.mkdir(album, 0777, function (error) {
+            if (error) {
+              moveFile(pathFile, pathIncoming)
+            }else {
+              moveFile(pathFile, newPath)
+            }
           });
         }
         else {
@@ -107,12 +123,12 @@ module.exports.bootstrap = function (cb) {
 
   function moveFile(path, newPath) {
     fs.rename(path, newPath, function (error) {
+      console.log("6 - deplacement du fichier");
       if (error) {
-        console.log(error);
+        console.log("7 - Erreur du move File",error);
         return;
       }
-
-      console.log("file moved to : " + newPath);
+      console.log("8 - file moved to : " + newPath);
     });
   }
 

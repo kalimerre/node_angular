@@ -12,9 +12,6 @@ angular.module('frontProjectApp')
 
     var id = $routeParams.id;
     
-    
-
-
     RequestService.getMusicById(id).success(function (data) {
       $scope.music = data;
     }).error(function (err) {
