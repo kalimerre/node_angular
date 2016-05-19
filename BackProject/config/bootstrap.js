@@ -51,17 +51,17 @@ module.exports.bootstrap = function (cb) {
 
       console.log("Extracting : " + pathFile);
       id3({file: pathFile, type: id3.OPEN_LOCAL}, function (err, tags) {
-
+        console.log(tags);
 
         var fileName = pathLib.basename(pathFile);
         var garbagePath = "./garbage/" + fileName;
 
+        if(fileName.split('.').pop() != "mp3")
+        {
+          moveFile(pathFile, garbagePath);
+        }
         if (err) {
           console.log("2 - Erreur pendant l'extract : " + err);
-          if(fileName.split('.').pop() != "mp3")
-          {
-            moveFile(pathFile, garbagePath);
-          }
         }
 
 
@@ -72,9 +72,12 @@ module.exports.bootstrap = function (cb) {
 
 
         var album = tags.album;
-        if (album == '') {
+
+        if (album == '' || album == null) {
           console.log("Ce MP3 n'a pas d'album !!");
-          return;
+        }
+        else{
+            album = album.replace(/\0/g, '');
         }
 
         console.log("Album : " + album);
@@ -84,7 +87,7 @@ module.exports.bootstrap = function (cb) {
 
         extracting = false;
 
-        setTimeout(extract, 100);
+        setTimeout(extract, 300);
       });
     }
   }
