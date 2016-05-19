@@ -1,8 +1,20 @@
-<p>Liste des MP3</p>
+<h1>Liste des MP3</h1>
+
+<div  ng-if="deleteMessage" class="btn btn-danger disabled">Votre mp3 a bien ete supprimer</div>
+<br>
+<br>
 
 
+<div class="form-group">
+  <label for="exampleInputEmail1">Rechercher un MP3</label>
+  <input type="text" class="form-control" id="exampleInputEmail1" ng-model="searchMusic" placeholder="Recherche">
+</div>
 
-<table  class="table table-striped">
+</br>
+</br>
+
+
+<table class="table table-striped">
   <th>Artiste</th>
   <th>Titre</th>
   <th>Album</th>
@@ -10,13 +22,13 @@
   <th>Delete</th>
 
 
-  <tr ng-repeat="music in musics">
+  <tr ng-repeat="music in musics | filter:searchMusic">
   <td>{{music.title}}</td>
   <td>{{music.album}}</td>
     <td>{{music.artist}}</td>
 
-    <td><input type="button" value="Edit" ng-click="onEdit(music)"></td>
-    <td><input type="button" value="X" ng-click="onRemove(music)"></td>
+    <td><input type="button" value="Edit" class="btn btn-default" ng-click="onEdit(music)"></td>
+    <td><input type="button" value="X"  class="btn btn-default" ng-click="onRemove(music)"></td>
   </tr>
 </table>
 
