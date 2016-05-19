@@ -5,8 +5,6 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 var fs = require('fs');
-var ffmetadata = require("ffmetadata");
-var ffmpeg = require('ffmpeg');
 
 module.exports = {
 
@@ -40,9 +38,9 @@ module.exports = {
 
   },
 
-  update:function(req,res){
+  updateMetaData:function(req,res){
 
-
+    console.log("cool je suis la apres update");
     Mp3.find({id:req.params.id}).exec(function (err, mp3){
       if (err) {
         return res.negotiate("Erreur ouverture fichier",err);
@@ -56,53 +54,46 @@ module.exports = {
         var artistEsc = artiste.replace(/\0/g, '');
       }
       else{
-        var artistEsc = "";
+        var artistEsc = artiste;
       }
 
       if(album != null){
         var albumEsc = album.replace(/\0/g, '');
       }
       else{
-        var albumEsc = "";
+        var albumEsc = album;
       }
 
       if(title != null){
         var titleEsc = title.replace(/\0/g, '');
       }
       else{
-        var titleEsc = "";
+        var titleEsc = title;
       }
 
       if(pathDatabase != null){
         var pathDatabaseEsc = pathDatabase.replace(/\0/g, '');
       }
       else{
-        var pathDatabaseEsc = "";
+        var pathDatabaseEsc = pathDatabase;
       }
 
+      var ID3Writer = require('browser-id3-writer');
+      var songBuffer = fs.readFileSync(pathDatabaseEsc);
+      var writer = new ID3Writer(songBuffer);
+      writer.setFrame('TIT2', titleEsc)
+        .setFrame('TPE1', [artistEsc])
+        .setFrame('TPE2', artistEsc)
+        .setFrame('TALB', albumEsc);
+      writer.addTag();
+
+      var taggedSongBuffer = new Buffer(writer.arrayBuffer);
+      fs.writeFileSync(pathDatabaseEsc, taggedSongBuffer);
 
 
-      var data = {
-        artist: "Maxime"
-      };
-
-      ffmetadata.write('The Weeknd - The Hills.mp3', data, function(err) {
-        if (err) console.error("Error writing metadata", err);
-        else console.log("Data written");
-      });
-
-      Mp3.update({artist: artistEsc}, {album: albumEsc}, {title: titleEsc}).exec(function afterwards(err, updated){
-        if (err) {
-          console.log("Erreur updatefichier",err);
-          return;
-        }
-
-        console.log('Updated user to have name ' + updated[0].name);
-      });
 
 
     })
-
 
   }
 

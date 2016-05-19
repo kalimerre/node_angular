@@ -34,7 +34,7 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
 
   /***************************************************************************
   *                                                                          *
@@ -46,4 +46,5 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  'put /mp3/updateMetaData': 'Mp3Controller.updateMetaData'
 };
