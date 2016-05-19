@@ -51,14 +51,16 @@ module.exports.bootstrap = function (cb) {
 
       console.log("Extracting : " + pathFile);
       id3({file: pathFile, type: id3.OPEN_LOCAL}, function (err, tags) {
-        console.log(tags);
+        //console.log(tags);
 
         var fileName = pathLib.basename(pathFile);
         var garbagePath = "./garbage/" + fileName;
+        var mp3File = true;
 
         if(fileName.split('.').pop() != "mp3")
         {
           moveFile(pathFile, garbagePath);
+          mp3File = false;
         }
         if (err) {
           console.log("2 - Erreur pendant l'extract : " + err);
@@ -83,7 +85,9 @@ module.exports.bootstrap = function (cb) {
         console.log("Album : " + album);
         console.log("Filename : " + fileName);
 
-        manageFile(album, pathFile, fileName);
+        if(mp3File) {
+          manageFile(album, pathFile, fileName);
+        }
 
         extracting = false;
 
