@@ -12,10 +12,9 @@ angular.module('frontProjectApp')
 
     var id = $routeParams.id;
 
-    console.log("id ", id);
 
-    RequestService.getUserById(id).success(function (data) {
-      $scope.user = data;
+    RequestService.getMusicById(id).success(function (data) {
+      $scope.music = data;
     }).error(function (err) {
       console.log(err);
     });

@@ -1,0 +1,22 @@
+<p>Liste des MP3</p>
+
+
+
+<table  class="table table-striped">
+  <th>Artiste</th>
+  <th>Titre</th>
+  <th>Album</th>
+  <th>Edit</th>
+  <th>Delete</th>
+
+
+  <tr ng-repeat="music in musics">
+  <td>{{music.title}}</td>
+  <td>{{music.album}}</td>
+    <td>{{music.artist}}</td>
+
+    <td><input type="button" value="Edit" ng-click="onEdit(music)"></td>
+    <td><input type="button" value="X" ng-click="onRemove(music)"></td>
+  </tr>
+</table>
+

@@ -4,17 +4,14 @@ angular.module('frontProjectApp')
       var url = "http://localhost:1337/mp3";
 
       return {
-        getUser: function getUser() {
+        getMusic: function getUser() {
           return $http.get(url);
         },
-        getUserById: function getUserById(id) {
+        getMusicById: function getUserById(id) {
           return $http.get(url + "/" + id);
         }
         ,
-        postUser: function postUser(user) {
-          return $http.post(url + "/" + user.id, user);
-        },
-        deleteUser: function deleteUser(user) {
+        deleteMusic: function deleteUser(user) {
           return $http.delete(url + "/" + user.id, user)
         }
       };
