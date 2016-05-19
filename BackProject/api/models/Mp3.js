@@ -10,15 +10,19 @@ module.exports = {
   attributes: {
     title: {
       type: 'string',
+      defaultsTo: "unknown"
     },
     album: {
       type: 'string',
+      defaultsTo: "unknown"
     },
     artist: {
       type: 'string',
+      defaultsTo: "unknown"
     },
     year: {
       type: 'integer',
+      defaultsTo: "2016"
     }
   }
 
