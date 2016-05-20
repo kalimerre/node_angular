@@ -17,6 +17,11 @@ body {
   padding-right: 15px;
 }
 
+.navbar {
+
+  margin-bottom: 0px;
+}
+
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
