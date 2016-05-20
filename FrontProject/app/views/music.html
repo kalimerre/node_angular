@@ -1,4 +1,4 @@
-<h1>Liste des MP3</h1>
+<h1 style="text-align:center;">Liste des MP3</h1>
 
 <div  ng-if="deleteMessage" class="btn btn-danger disabled">Votre mp3 a bien ete supprimer</div>
 <br>
@@ -9,6 +9,20 @@
   <label for="exampleInputEmail1">Rechercher un MP3</label>
   <input type="text" class="form-control" id="exampleInputEmail1" ng-model="searchMusic" placeholder="Recherche">
 </div>
+
+<label >Triez vos musiques</label>
+<select ng-model="selectedValue" class="form-control">
+  <option value="title">Par Titre</option>
+  <option value="artist">Par Artiste</option>
+  <option value="album">Par Album</option>
+</select>
+
+
+<label>Jouer un extrait</label>
+<audio controls>
+  <source ng-src="{{musicChoisis}}" type="audio/mp3">
+  Your browser does not support the audio element.
+</audio>
 
 </br>
 </br>
@@ -22,10 +36,11 @@
   <th>Delete</th>
 
 
-  <tr ng-repeat="music in musics | filter:searchMusic">
-  <td>{{music.title}}</td>
-  <td>{{music.album}}</td>
+  <tr ng-repeat="music in musics | filter:searchMusic | orderBy:selectedValue">
     <td>{{music.artist}}</td>
+    <td ng-click="musicSelected(music)">{{music.title}}</td>
+    <td>{{music.album}}</td>
+
 
     <td><input type="button" value="Edit" class="btn btn-default" ng-click="onEdit(music)"></td>
     <td><input type="button" value="X"  class="btn btn-default" ng-click="onRemove(music)"></td>

@@ -23,7 +23,17 @@ module.exports.bootstrap = function (cb) {
     persistent: true
   });
 
+  var watcherDelete = chokidar.watch('inconnu', {
+    ignored: /[\/\\]\./,
+    persistent: true
+  });
 
+
+  watcherDelete.on('unlink', function (path) {
+    console.log('1 - File delete : ' + path);
+    deleteFileToDb(path);
+
+  });
 
   watcher.on('add', function (path) {
     console.log('1 - File added : ' + path);
@@ -33,6 +43,28 @@ module.exports.bootstrap = function (cb) {
   var files = [];
   var extracting = false;
   var endTimeout = 3000;
+
+  function deleteFileToDb(path){
+
+    var pathEscape = "./" + path;
+    console.log(pathEscape);
+    Mp3.find({pathDatabase:pathEscape}).exec(function (err, mp3){
+      if (err) {
+        return res.negotiate(err);
+      }
+      console.log('Wow, there are song .  Check it out:', mp3.length, mp3);
+
+
+      Mp3.destroy({id:mp3[0].id}).exec(function (err){
+        console.log("Suppression du fichier en base");
+        if (err) {
+          return res.negotiate("Erreur suprr en base",err);
+        }
+        sails.log('Any mp3 named  have now been deleted in database.');
+      });
+
+    });
+  }
 
   function addFileToExtract(path) {
       files.push(path);

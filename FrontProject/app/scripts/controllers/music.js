@@ -8,13 +8,18 @@
  * Controller of the frontProjectApp
  */
 angular.module('frontProjectApp')
-  .controller('MusicCtrl', function ($http, $scope, $location, RequestService,$timeout) {
+  .controller('MusicCtrl', function ($http, $scope, $location, RequestService,$timeout,$sce) {
 
     /*
     setTimeout(function(){
       window.location.reload(1);
     }, 10000);*/
 
+
+    $scope.musicSelected = function(music){
+      console.log("Ma musique",music);
+      $scope.musicChoisis = $sce.trustAsResourceUrl("http://localhost:1337" + music.pathDatabase.substr(1));
+    }
 
     RequestService.getMusic().success(function (data) {
       $scope.musics = data;
@@ -34,8 +39,6 @@ angular.module('frontProjectApp')
         $scope.deleteMessage=true;
           $timeout(function () { $scope.deleteMessage = false; }, 3000);
 
-
-        console.log("user delete");
       }).error(function (err) {
         console.log(err);
       });
