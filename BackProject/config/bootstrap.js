@@ -31,11 +31,11 @@ module.exports.bootstrap = function (cb) {
   });
 
 
-  watcherDelete.on('unlink', function (path) {
-    console.log('1 - File delete : ' + path);
+  /*watcherDelete.on('unlink', function (path) {
+
     deleteFileToDb(path);
 
-  });
+  });*/
 
   watcher.on('add', function (path) {
     console.log('1 - File added : ' + path);
@@ -46,7 +46,7 @@ module.exports.bootstrap = function (cb) {
   var extracting = false;
   var endTimeout = 1000;
 
-  function deleteFileToDb(path){
+  /*function deleteFileToDb(path){
     console.log("Path to delete");
     var pathEscape = path;
     console.log(pathEscape);
@@ -66,12 +66,13 @@ module.exports.bootstrap = function (cb) {
       });
 
     });
-  }
+  }*/
 
   function addFileToExtract(path) {
       files.push(path);
       fs.stat(path, function(err, stat){
         if(err) throw err;
+        console.log("time out");
         setTimeout(checkEnd, endTimeout, path, stat);
       });
 
