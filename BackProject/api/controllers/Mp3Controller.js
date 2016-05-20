@@ -5,6 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 var fs = require('fs');
+var pathLib = require('path');
 
 module.exports = {
 
@@ -89,7 +90,64 @@ module.exports = {
 
       var taggedSongBuffer = new Buffer(writer.arrayBuffer);
       fs.writeFileSync(pathDatabaseEsc, taggedSongBuffer);
-      
+      var fileName = pathLib.basename(pathDatabase);
+      if(album == "" || album == null){
+        var newPath = "./inconnu/" + fileName;
+        var newFolder = "./inconnu/";
+
+      }
+      else{
+        var newPath = "./" + album + "/" + fileName;
+        var newFolder = "./" +album+ "/";
+      }
+
+      console.log("Path Database : "+newPath);
+
+      checkDirectoryExist(pathDatabaseEsc, newPath, newFolder);
+
+      function checkDirectoryExist(pathDatabaseEsc, newPath, newFolder){
+        fs.stat(newFolder, function (error) {
+          if (error) {
+            console.log(newFolder);
+            createFile(pathDatabaseEsc, newPath, newFolder);
+          }
+          else {
+            console.log("Move direct car dossier existe");
+            moveFile(pathDatabaseEsc, newPath)
+          }
+        });
+      }
+
+
+
+
+      function createFile(pathDatabaseEsc, newPath, newFolder){
+        fs.mkdir(newFolder, 0777, function (error) {
+          if (error) {
+            moveFile(pathDatabaseEsc, newPath)
+          }else {
+            moveFile(pathDatabaseEsc, newPath)
+          }
+        });
+      }
+
+      function moveFile(path, newPath) {
+        fs.rename(path, newPath, function (error) {
+          if (error) {
+            console.log("11 - Erreur du move File",error);
+            return;
+          }
+          Mp3.update({id:req.params.id}, {pathDatabase:newPath}).exec(function afterwards(err, updated){
+            console.log("Update du path en database");
+            if (err) {
+              return res.negotiate("Erreur update en base",err);
+            }
+            console.log('Update path ok.');
+            return res.ok();
+          });
+        });
+      }
+
 
 
 
