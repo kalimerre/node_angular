@@ -92,13 +92,13 @@ module.exports = {
       fs.writeFileSync(pathDatabaseEsc, taggedSongBuffer);
       var fileName = pathLib.basename(pathDatabase);
       if(album == "" || album == null){
-        var newPath = "./inconnu/" + fileName;
-        var newFolder = "./inconnu/";
+        var newPath = "assets/inconnu/" + fileName;
+        var newFolder = "assets/inconnu/";
 
       }
       else{
-        var newPath = "./" + album + "/" + fileName;
-        var newFolder = "./" +album+ "/";
+        var newPath = "assets/" + album + "/" + fileName;
+        var newFolder = "assets/" +album+ "/";
       }
 
       console.log("Path Database : "+newPath);
@@ -122,6 +122,7 @@ module.exports = {
 
 
       function createFile(pathDatabaseEsc, newPath, newFolder){
+        console.log("new folder");
         fs.mkdir(newFolder, 0777, function (error) {
           if (error) {
             moveFile(pathDatabaseEsc, newPath)

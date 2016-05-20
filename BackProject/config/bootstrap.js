@@ -18,12 +18,14 @@ module.exports.bootstrap = function (cb) {
   var chokidar = require('chokidar');
   var pathLib = require('path');
   var folderCreated = false;
-  var watcher = chokidar.watch('incoming_songs', {
+
+
+  var watcher = chokidar.watch("assets/incoming_songs", {
     ignored: /[\/\\]\./,
     persistent: true
   });
 
-  var watcherDelete = chokidar.watch('inconnu', {
+  var watcherDelete = chokidar.watch("assets/inconnu", {
     ignored: /[\/\\]\./,
     persistent: true
   });
@@ -42,11 +44,11 @@ module.exports.bootstrap = function (cb) {
 
   var files = [];
   var extracting = false;
-  var endTimeout = 3000;
+  var endTimeout = 1000;
 
   function deleteFileToDb(path){
-
-    var pathEscape = "./" + path;
+    console.log("Path to delete");
+    var pathEscape = path;
     console.log(pathEscape);
     Mp3.find({pathDatabase:pathEscape}).exec(function (err, mp3){
       if (err) {
@@ -107,7 +109,7 @@ module.exports.bootstrap = function (cb) {
         //console.log(tags);
 
         var fileName = pathLib.basename(pathFile);
-        var garbagePath = "./garbage/" + fileName;
+        var garbagePath = "./assets/garbage/" + fileName;
         var mp3File = true;
 
         if(fileName.split('.').pop() != "mp3")
@@ -128,13 +130,14 @@ module.exports.bootstrap = function (cb) {
 
         var album = tags.album;
 
-        if (album == '' || album == null) {
-          var pathDatabase = "./inconnu/" + fileName;
+          console.log("test album",album);
+        if (album == "" || album == null) {
+          var pathDatabase = "assets/inconnu/" + fileName;
           console.log("Ce MP3 n'a pas d'album !!");
           album = "unknown";
         }
         else{
-            var pathDatabase = "./" + album + "/" + fileName;
+            var pathDatabase = "assets/" + album + "/" + fileName;
             album = album.replace(/\0/g, '');
         }
 
@@ -151,21 +154,22 @@ module.exports.bootstrap = function (cb) {
 
 
   function manageFile(album, pathFile, fileName) {
-    var newPath = "./" + album + "/" + fileName;
-    var pathIncoming = "./inconnu/" + fileName;
+    var newPath = "assets/" + album + "/" + fileName;
+    var pathIncoming = "assets/inconnu/" + fileName;
 
 
-    if (album == null || album == "unknown") {
+    if (album == null || album == "unknown" || album == "") {
 
       moveFile(pathFile, pathIncoming)
     }
     else {
-      fs.stat(album, function (error) {
+      fs.stat("assets/" + album, function (error) {
         if (error) {
           console.log(album);
           createFile(album, pathFile, pathIncoming, newPath);
         }
         else {
+          console.log("album move",album);
           moveFile(pathFile, newPath)
         }
       });
@@ -173,7 +177,8 @@ module.exports.bootstrap = function (cb) {
   }
 
   function createFile(album, pathFile, pathIncoming, newPath){
-    fs.mkdir(album, 0777, function (error) {
+    fs.mkdir("assets/" + album, 0777, function (error) {
+      console.log("album creation mkdir",album);
       if (error) {
         moveFile(pathFile, pathIncoming)
       }else {
@@ -184,6 +189,9 @@ module.exports.bootstrap = function (cb) {
 
   function moveFile(path, newPath) {
     fs.rename(path, newPath, function (error) {
+      console.log("Path : ",path);
+      console.log("New Path : ",newPath);
+
       if (error) {
         console.log("11 - Erreur du move File",error);
         return;
