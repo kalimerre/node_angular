@@ -31,6 +31,7 @@
   <th>Artiste</th>
   <th>Titre</th>
   <th>Album</th>
+  <th>Annee</th>
   <th>Edit</th>
   <th>Delete</th>
 
@@ -39,6 +40,9 @@
     <td>{{music.artist}}</td>
     <td ng-click="musicSelected(music)">{{music.title}}</td>
     <td>{{music.album}}</td>
+    <td>{{music.year}}</td>
+
+
 
 
     <td><input type="button" value="Edit" class="btn btn-default" ng-click="onEdit(music)"></td>
