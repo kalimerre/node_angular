@@ -32,7 +32,7 @@ module.exports.bootstrap = function (cb) {
 
   var files = [];
   var extracting = false;
-  var endTimeout = 1000;
+  var endTimeout = 3000;
 
   function addFileToExtract(path) {
 
@@ -100,6 +100,7 @@ module.exports.bootstrap = function (cb) {
         if (album == '' || album == null) {
           var pathDatabase = "./inconnu/" + fileName;
           console.log("Ce MP3 n'a pas d'album !!");
+          album = "unknown";
         }
         else{
             var pathDatabase = "./" + album + "/" + fileName;
@@ -124,7 +125,7 @@ module.exports.bootstrap = function (cb) {
     console.log("3 - Album dans manageFile : " + album);
 
 
-    if (album == null) {
+    if (album == null || album == "unknown") {
       console.log("3bis - album est nul");
       moveFile(pathFile, pathIncoming)
     }

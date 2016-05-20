@@ -89,11 +89,11 @@ module.exports = {
 
       var taggedSongBuffer = new Buffer(writer.arrayBuffer);
       fs.writeFileSync(pathDatabaseEsc, taggedSongBuffer);
+      
 
 
 
-
-    })
+    });
 
   }
 
