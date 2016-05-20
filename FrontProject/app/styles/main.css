@@ -22,6 +22,10 @@ body {
   margin-bottom: 0px;
 }
 
+span.glyphicon-play-circle {
+  font-size: 1.2em;
+}
+
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
