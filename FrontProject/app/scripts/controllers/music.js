@@ -18,7 +18,7 @@ angular.module('frontProjectApp')
 
     $scope.musicSelected = function(music){
       console.log("Ma musique",music);
-      var musicEscape = escape(music.pathDatabase.substr(6));
+      var musicEscape = music.pathDatabase.substr(6);
       $scope.musicChoisis = $sce.trustAsResourceUrl("http://localhost:1337" + musicEscape);
     }
 
