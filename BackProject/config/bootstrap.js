@@ -24,11 +24,12 @@ module.exports.bootstrap = function (cb) {
     ignored: /[\/\\]\./,
     persistent: true
   });
-
+/*
   var watcherDelete = chokidar.watch("assets/inconnu", {
     ignored: /[\/\\]\./,
     persistent: true
   });
+  */
 
 
   /*watcherDelete.on('unlink', function (path) {
