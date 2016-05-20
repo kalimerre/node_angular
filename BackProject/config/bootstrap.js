@@ -87,9 +87,16 @@ module.exports.bootstrap = function (cb) {
 
   function checkEnd(path, prev) {
       fs.stat(path, function (err, stat) {
-        if (stat !== undefined && stat.mtime.getTime() === prev.mtime.getTime()) {
+        console.log("Statistiques",stat);
+        console.log("Prev info : ",prev);
+
+        if (stat !== undefined && stat.mtime.getTime() <= prev.mtime.getTime()) {
+          console.log("2 - time out");
+
           extract(path);
         } else {
+          console.log("3 - time out");
+
           setTimeout(checkEnd, endTimeout, path, prev);
 
         }
