@@ -8,7 +8,7 @@
  * Controller of the frontProjectApp
  */
 angular.module('frontProjectApp')
-  .controller('ProfileCtrl', function ($scope, $routeParams,$location, RequestService) {
+  .controller('EditCtrl', function ($scope, $routeParams,$location, RequestService) {
 
     var id = $routeParams.id;
 

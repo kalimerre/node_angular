@@ -35,9 +35,7 @@ module.exports.bootstrap = function (cb) {
   var endTimeout = 3000;
 
   function addFileToExtract(path) {
-
       files.push(path);
-      console.log(files);
       fs.stat(path, function(err, stat){
         if(err) throw err;
         setTimeout(checkEnd, endTimeout, path, stat);
@@ -51,14 +49,16 @@ module.exports.bootstrap = function (cb) {
     extract();
   }*/
 
-  function checkEnd(path, prev){
-    fs.stat(path, function(err, stat){
-      if(stat !== undefined && stat.mtime.getTime() === prev.mtime.getTime()){
-        extract(path);
-      }else{
-        setTimeout(checkEnd, endTimeout, path, prev);
-      }
-    });
+  function checkEnd(path, prev) {
+      fs.stat(path, function (err, stat) {
+        if (stat !== undefined && stat.mtime.getTime() === prev.mtime.getTime()) {
+          extract(path);
+        } else {
+          setTimeout(checkEnd, endTimeout, path, prev);
+
+        }
+      });
+
   }
 
   function extract() {
@@ -71,7 +71,6 @@ module.exports.bootstrap = function (cb) {
 
       pathFile = files.pop();
 
-      console.log("Extracting : " + pathFile);
       id3({file: pathFile, type: id3.OPEN_LOCAL}, function (err, tags) {
         //console.log(tags);
 
@@ -85,14 +84,14 @@ module.exports.bootstrap = function (cb) {
           mp3File = false;
         }
         if (err) {
-          console.log("2 - Erreur pendant l'extract : " + err);
+          console.log("Erreur pendant l'extract : " + err);
         }
 
 
         //console.log(tags.album);
 
         if(mp3File) {
-        console.log("2 bis - Extracted " + pathFile);
+        console.log("Extracted " + pathFile);
 
 
         var album = tags.album;
@@ -122,11 +121,10 @@ module.exports.bootstrap = function (cb) {
   function manageFile(album, pathFile, fileName) {
     var newPath = "./" + album + "/" + fileName;
     var pathIncoming = "./inconnu/" + fileName;
-    console.log("3 - Album dans manageFile : " + album);
 
 
     if (album == null || album == "unknown") {
-      console.log("3bis - album est nul");
+
       moveFile(pathFile, pathIncoming)
     }
     else {
@@ -154,12 +152,10 @@ module.exports.bootstrap = function (cb) {
 
   function moveFile(path, newPath) {
     fs.rename(path, newPath, function (error) {
-      console.log("6 - deplacement du fichier");
       if (error) {
-        console.log("7 - Erreur du move File",error);
+        console.log("11 - Erreur du move File",error);
         return;
       }
-      console.log("8 - file moved to : " + newPath);
     });
   }
 

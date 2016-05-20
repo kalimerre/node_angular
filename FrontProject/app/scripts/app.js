@@ -29,10 +29,10 @@ angular
         controller: 'MusicCtrl',
         controllerAs: 'music'
       })
-      .when('/profile/:id', {
-        templateUrl: 'views/profile.html',
-        controller: 'ProfileCtrl',
-        controllerAs: 'profile'
+      .when('/edit/:id', {
+        templateUrl: 'views/edit.html',
+        controller: 'EditCtrl',
+        controllerAs: 'edit'
       })
       .otherwise({
         redirectTo: '/music'

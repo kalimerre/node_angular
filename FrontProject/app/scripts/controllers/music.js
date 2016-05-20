@@ -44,7 +44,7 @@ angular.module('frontProjectApp')
 
     $scope.onEdit = function (music) {
       console.log(music);
-      $location.path("/profile/" + music.id);
+      $location.path("/edit/" + music.id);
       //$scope.editUser = angular.copy(user);
     };
 
