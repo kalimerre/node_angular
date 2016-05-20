@@ -87,16 +87,9 @@ module.exports.bootstrap = function (cb) {
 
   function checkEnd(path, prev) {
       fs.stat(path, function (err, stat) {
-        console.log("Statistiques",stat);
-        console.log("Prev info : ",prev);
-
         if (stat !== undefined && stat.mtime.getTime() <= prev.mtime.getTime()) {
-          console.log("2 - time out");
-
           extract(path);
         } else {
-          console.log("3 - time out");
-
           setTimeout(checkEnd, endTimeout, path, prev);
 
         }
@@ -146,11 +139,15 @@ module.exports.bootstrap = function (cb) {
           album = "unknown";
         }
         else{
-            var pathDatabase = "assets/" + album + "/" + fileName;
             album = album.replace(/\0/g, '');
+            var pathDatabase = "assets/" + album + "/" + fileName;
         }
 
-          Mp3.create({album:album,title:tags.title,artist:tags.artist,year:tags.year,pathDatabase :pathDatabase}).exec(function createCB(err, created){   console.log('Created mp3 with name ' + created); });
+          var titleDatabase = tags.title.replace(/\0/g, '');
+          var artistDatabase = tags.artist.replace(/\0/g, '');
+
+
+          Mp3.create({album:album,title:titleDatabase,artist:artistDatabase,year:tags.year,pathDatabase :pathDatabase}).exec(function createCB(err, created){   console.log('Created mp3 with name ' + created); });
           manageFile(album, pathFile, fileName);
         }
 
